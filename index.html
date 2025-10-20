@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PidiLang: Official Documentation</title>
+    <title>PidiLang: Official Language Specification</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'pidi-navy': '#0F172A', // Slate 900
-                        'pidi-blue': '#1E293B', // Slate 800
-                        'pidi-cyan': '#06B6D4', // Cyan 500
+                        'official-bg': '#0A0A0A',
+                        'official-text': '#FAFAFA',
+                        'official-accent': '#3B82F6', // Electric Blue
+                        'official-card': '#111827',
+                        'official-code': '#1F2937',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Consolas', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+                        mono: ['SFMono-Regular', 'Menlo', 'Consolas', 'monospace'],
                     },
                 }
             }
@@ -25,157 +27,168 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         body {
-            background-color: #0F172A;
-            color: #E2E8F0;
-            line-height: 1.6;
+            background-color: #0A0A0A;
+            color: #FAFAFA;
+            line-height: 1.7;
         }
-        .code-block {
-            background-color: #1E293B;
-            border-left: 4px solid #06B6D4;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 0.5rem;
+        .code-block-style {
+            background-color: #1F2937;
+            border-left: 4px solid #3B82F6;
+            border-radius: 0.375rem;
+            padding: 1.25rem;
             overflow-x: auto;
         }
         h2 {
-            border-bottom: 2px solid #1E293B;
+            border-bottom: 1px solid #1F2937;
             padding-bottom: 0.5rem;
-            margin-top: 2rem;
-            color: #94A3B8;
+            margin-top: 3rem;
+            color: #9CA3AF;
         }
-        .keyword {
-            color: #06B6D4;
+        .keyword-style {
+            color: #3B82F6;
             font-weight: 700;
         }
-        .type {
-            color: #FACC15;
+        .table-header {
+            background-color: #111827;
+            color: #FAFAFA;
         }
     </style>
 </head>
 <body class="font-sans">
 
-    <div class="max-w-4xl mx-auto p-6 md:p-10">
+    <div class="max-w-5xl mx-auto p-4 md:p-12">
         
-        <!-- Header / Logo -->
-        <header class="text-center py-8 border-b border-pidi-blue mb-10">
-            <h1 class="text-6xl font-extrabold text-white tracking-tight">PidiLang</h1>
-            <p class="text-xl text-pidi-cyan mt-2">The Knowingly Adaptive, Highly Expressive Programming Language</p>
+        <!-- Header & Branding -->
+        <header class="text-center py-10 mb-12 border-b-2 border-official-card">
+            <h1 class="text-7xl font-extrabold text-white tracking-tighter">PidiLang</h1>
+            <p class="text-2xl text-official-accent mt-3 font-medium">The Official Language Specification — v1.0.0</p>
         </header>
 
-        <!-- Section 1: Project Philosophy -->
-        <section class="mb-10">
-            <h2 class="text-3xl font-bold">1. Project Philosophy</h2>
-            <p class="mt-4 text-gray-400">PidiLang (Pidgin Language) is built on the principle that programming should be universally accessible and intuitive. By leveraging the expressive power and accessibility of West African Pidgin English, PidiLang aims to lower the barrier to entry for new developers and bring a dynamic, culturally rich voice to the coding world. Our mission is to make development feel less like a chore and more like a conversation.</p>
+        <!-- Philosophy -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold">1. Project Philosophy and Intent</h2>
+            <p class="mt-4 text-gray-300">PidiLang is an open-source, highly expressive programming language built on the West African Pidgin English dialect. Our core mission is to **democratize access to coding** by utilizing an intuitive, globally understood, and culturally rich lexicon, making the journey from novice to competent developer as straightforward as a conversation.</p>
         </section>
 
-        <!-- Section 2: Core Lexicon and Keywords -->
-        <section class="mb-10">
-            <h2 class="text-3xl font-bold">2. Core Lexicon and Keywords</h2>
-            <p class="mt-4 text-gray-400">The language is built around a small, powerful set of commands, rooted in everyday communication.</p>
+        <!-- Installation -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold">2. Installation and Setup</h2>
+            <p class="mt-4 text-gray-300">To get started with the PidiLang interpreter (PidiShell), you must first download the CLI tool:</p>
+            <div class="code-block-style font-mono mt-4 text-sm text-gray-300">
+                <span class="text-green-400">$</span> install pidilang --global
+            </div>
+            <p class="mt-4 text-gray-300">Verify your installation:</p>
+            <div class="code-block-style font-mono mt-4 text-sm text-gray-300">
+                <span class="text-green-400">$</span> pidishell --version
+                <br>
+                <span class="text-white">PidiLang Runtime v1.0.0 (Wahala-Free)</span>
+            </div>
+        </section>
 
-            <div class="overflow-x-auto mt-6">
-                <table class="w-full text-left table-auto border-collapse">
-                    <thead class="bg-pidi-blue text-sm uppercase">
+        <!-- Lexicon Table -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold">3. Core Lexicon and Keywords</h2>
+            <p class="mt-4 text-gray-300">PidiLang is defined by its concise and powerful set of commands:</p>
+
+            <div class="overflow-x-auto mt-6 rounded-lg border border-official-card">
+                <table class="w-full text-left table-fixed">
+                    <thead class="table-header text-xs uppercase tracking-wider">
                         <tr>
-                            <th class="p-3">Category</th>
-                            <th class="p-3">PidiLang Keyword</th>
-                            <th class="p-3">Function</th>
+                            <th class="w-1/5 p-4">Category</th>
+                            <th class="w-1/4 p-4">PidiLang Keyword</th>
+                            <th class="w-1/2 p-4">Programming Function / Intent</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Data/Variables</td>
-                            <td class="p-3"><span class="keyword">DAT_ME</span></td>
-                            <td class="p-3 text-gray-300">Declaration and Assignment</td>
+                    <tbody class="text-sm text-gray-400 divide-y divide-official-card">
+                        <tr class="hover:bg-official-code transition duration-150">
+                            <td class="p-4 font-semibold text-gray-300">Data/Vars</td>
+                            <td class="p-4"><span class="keyword-style">DAT_ME</span></td>
+                            <td class="p-4">Variable declaration and assignment (`let`, `var`).</td>
                         </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Data Types</td>
-                            <td class="p-3"><span class="keyword">PLENTY_THINGS</span></td>
-                            <td class="p-3 text-gray-300">Defines a List/Array</td>
+                        <tr class="hover:bg-official-code transition duration-150">
+                            <td class="p-4 font-semibold text-gray-300">Collection</td>
+                            <td class="p-4"><span class="keyword-style">PLENTY_THINGS</span> / <span class="keyword-style">CONTAINER</span></td>
+                            <td class="p-4">Defines an Array/List or an Object/Dictionary, respectively.</td>
                         </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Data Types</td>
-                            <td class="p-3"><span class="keyword">CONTAINER</span></td>
-                            <td class="p-3 text-gray-300">Defines an Object/Dictionary</td>
+                        <tr class="hover:bg-official-code transition duration-150">
+                            <td class="p-4 font-semibold text-gray-300">Control Flow</td>
+                            <td class="p-4"><span class="keyword-style">IF_E_TRUE</span> / <span class="keyword-style">ELSE_IF_NO</span></td>
+                            <td class="p-4">Standard Conditional (`if`/`else`).</td>
                         </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Functions</td>
-                            <td class="p-3"><span class="keyword">DO_WORK</span></td>
-                            <td class="p-3 text-gray-300">Function Definition</td>
+                        <tr class="hover:bg-official-code transition duration-150">
+                            <td class="p-4 font-semibold text-gray-300">Iteration</td>
+                            <td class="p-4"><span class="keyword-style">WAKA_ROUND</span></td>
+                            <td class="p-4">Iterates over elements in a collection (`for...in`).</td>
                         </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Functions</td>
-                            <td class="p-3"><span class="keyword">GIVE_BACK</span></td>
-                            <td class="p-3 text-gray-300">Return a value</td>
+                        <tr class="hover:bg-official-code transition duration-150">
+                            <td class="p-4 font-semibold text-gray-300">Functions</td>
+                            <td class="p-4"><span class="keyword-style">DO_WORK</span> / <span class="keyword-style">GIVE_BACK</span></td>
+                            <td class="p-4">Function definition and returning a value (`return`).</td>
                         </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Output</td>
-                            <td class="p-3"><span class="keyword">TALK_AM</span></td>
-                            <td class="p-3 text-gray-300">Print to console</td>
-                        </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Conditional</td>
-                            <td class="p-3"><span class="keyword">IF_E_TRUE</span> / <span class="keyword">ELSE_IF_NO</span></td>
-                            <td class="p-3 text-gray-300">If / Else Conditionals</td>
-                        </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Looping</td>
-                            <td class="p-3"><span class="keyword">WAKA_ROUND</span> / <span class="keyword">WHILE_E_DEY</span></td>
-                            <td class="p-3 text-gray-300">For Loop / While Loop</td>
-                        </tr>
-                        <tr class="border-b border-pidi-blue hover:bg-pidi-blue transition duration-150">
-                            <td class="p-3 text-gray-400">Exit / Success</td>
-                            <td class="p-3"><span class="keyword">IF_NO_WAHALA</span></td>
-                            <td class="p-3 text-gray-300">Graceful Return/Exit</td>
+                        <tr class="hover:bg-official-code transition duration-150">
+                            <td class="p-4 font-semibold text-gray-300">I/O & Exit</td>
+                            <td class="p-4"><span class="keyword-style">TALK_AM</span> / <span class="keyword-style">IF_NO_WAHALA</span></td>
+                            <td class="p-4">Prints output / Graceful program exit.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </section>
-        
-        <!-- Section 3: Error Handling and Exceptions -->
-        <section class="mb-10">
-            <h2 class="text-3xl font-bold">3. Error Handling and Exception Management</h2>
-            <p class="mt-4 text-gray-400">We manage errors, or "wahala," using three primary commands:</p>
+
+        <!-- Error Handling Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold">4. Exception Management (Wahala Handling)</h2>
+            <p class="mt-4 text-gray-300">PidiLang uses clear, direct blocks to manage runtime errors, or **"Wahala"** (Trouble).</p>
             
-            <div class="mt-6 space-y-4">
-                <div class="bg-pidi-blue p-4 rounded-lg">
-                    <p class="text-xl font-semibold text-pidi-cyan"><span class="keyword">TRY_YOUR_BEST</span></p>
-                    <p class="text-gray-300">Marks the block of code where unexpected issues might arise. Essentially the <code class="text-yellow-400">try</code> block.</p>
+            <div class="mt-6 grid md:grid-cols-3 gap-6">
+                <div class="bg-official-card p-5 rounded-lg border border-official-code">
+                    <p class="text-xl font-semibold text-official-accent">TRY_YOUR_BEST</p>
+                    <p class="text-gray-400 mt-2">The block of code where exceptions are anticipated. The equivalent of a standard `try` block.</p>
                 </div>
-                <div class="bg-pidi-blue p-4 rounded-lg">
-                    <p class="text-xl font-semibold text-pidi-cyan"><span class="keyword">IF_PROBLEM_DEY</span></p>
-                    <p class="text-gray-300">The error catcher. Code inside this block runs only if a <code class="text-yellow-400">wahala</code> is detected in the <code class="text-yellow-400">TRY_YOUR_BEST</code> block. This is the <code class="text-yellow-400">catch</code> block.</p>
+                <div class="bg-official-card p-5 rounded-lg border border-official-code">
+                    <p class="text-xl font-semibold text-official-accent">IF_PROBLEM_DEY</p>
+                    <p class="text-gray-400 mt-2">The handler for catching and mitigating the `Wahala`. Executes only upon failure (`catch`).</p>
                 </div>
-                <div class="bg-pidi-blue p-4 rounded-lg">
-                    <p class="text-xl font-semibold text-pidi-cyan"><span class="keyword">FINALLY_GREET</span></p>
-                    <p class="text-gray-300">Code that executes unconditionally, whether a <code class="text-yellow-400">wahala</code> occurred or not. The <code class="text-yellow-400">finally</code> block.</p>
+                <div class="bg-official-card p-5 rounded-lg border border-official-code">
+                    <p class="text-xl font-semibold text-official-accent">FINALLY_GREET</p>
+                    <p class="text-gray-400 mt-2">The guaranteed cleanup block. Runs regardless of success or failure (`finally`).</p>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-bold mt-8 mb-4 text-white">Example: Handling Wahala</h3>
-            <pre class="code-block font-mono text-sm">
-<span class="keyword">TRY_YOUR_BEST</span> (
-    <span class="keyword">DAT_ME</span> num1 = 10
-    <span class="keyword">DAT_ME</span> num2 = 0
-    <span class="keyword">DAT_ME</span> result = num1 / num2 <span class="type">// Wahala go dey here!</span>
-    <span class="keyword">TALK_AM</span> "Result is: " + result
+            <h3 class="text-2xl font-bold mt-10 mb-4 text-white">Example: Division by Zero Wahala</h3>
+            <pre class="code-block-style font-mono text-sm text-gray-300">
+<span class="keyword-style">TRY_YOUR_BEST</span> (
+    <span class="keyword-style">DAT_ME</span> dividend = 100
+    <span class="keyword-style">DAT_ME</span> divisor = 0
+    <span class="keyword-style">DAT_ME</span> result = dividend / divisor  // Fatal operation expected here
+    <span class="keyword-style">TALK_AM</span> "Result is: " + result
 )
 
-<span class="keyword">IF_PROBLEM_DEY</span> (
-    <span class="keyword">TALK_AM</span> "E be like say math no straight. No divide by zero!"
+<span class="keyword-style">IF_PROBLEM_DEY</span> (
+    <span class="keyword-style">TALK_AM</span> "E be like say math no straight. No divide by zero, abi?"
 )
 
-<span class="keyword">FINALLY_GREET</span> (
-    <span class="keyword">TALK_AM</span> "Work don finish, we thank God."
+<span class="keyword-style">FINALLY_GREET</span> (
+    <span class="keyword-style">TALK_AM</span> "Session complete. Work don finish."
 )
             </pre>
         </section>
         
+        <!-- Roadmap Section -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold">5. Roadmap and Development</h2>
+            <p class="mt-4 text-gray-300">We are committed to continuous integration and expansion of the PidiLang ecosystem. Key upcoming features include:</p>
+            <ul class="list-disc list-inside mt-4 space-y-2 text-gray-400 pl-4">
+                <li class="hover:text-official-accent transition duration-150">**v1.1:** Native support for asynchronous operations (`WAIT_SMALL`).</li>
+                <li class="hover:text-official-accent transition duration-150">**v1.2:** Compiler integration for faster binary execution.</li>
+                <li class="hover:text-official-accent transition duration-150">**v1.3:** Pidi Package Manager (`pidi-pkg`) for dependency management.</li>
+            </ul>
+        </section>
+
         <!-- Footer -->
-        <footer class="text-center pt-8 mt-10 border-t border-pidi-blue">
-            <p class="text-gray-500 text-sm">&copy; 2024 PidiLang Project. Built for the community, by the community.</p>
-            <p class="text-gray-500 text-sm mt-1">Get the source code on <a href="#" class="text-pidi-cyan hover:text-white transition duration-150">GitHub</a>.</p>
+        <footer class="text-center pt-8 mt-12 border-t border-official-code">
+            <p class="text-gray-500 text-sm">&copy; 2024 PidiLang Project. All Rights Reserved. Specification Version 1.0.0</p>
+            <p class="text-gray-500 text-sm mt-1">Contribute to the project on <a href="#" class="text-official-accent hover:underline transition duration-150">GitHub</a>.</p>
         </footer>
 
     </div>
