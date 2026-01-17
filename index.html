@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PidiLang: Live Playground</title>
+    <title>PidiLang: Complete Specification</title>
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,110 +22,128 @@
         }
     </script>
     <style>
-        body { background-color: #0A0A0A; color: #FAFAFA; font-family: sans-serif; }
+        body { background-color: #0A0A0A; color: #FAFAFA; font-family: sans-serif; scroll-behavior: smooth; }
         #output { background-color: #000; color: #22c55e; font-family: monospace; padding: 15px; min-height: 120px; border: 1px solid #333; white-space: pre-wrap; font-size: 1.1rem; }
+        .keyword-row:hover { background-color: #1F2937; }
     </style>
 </head>
 <body class="p-4">
 
-    <div class="max-w-4xl mx-auto">
-        <header class="text-center py-6">
-            <h1 class="text-5xl font-extrabold text-white tracking-tighter">PidiLang</h1>
-            <p id="loading-msg" class="text-orange-500 font-mono text-sm animate-pulse mt-2">Warming up... wait small...</p>
+    <div class="max-w-6xl mx-auto">
+        <header class="text-center py-10 border-b border-gray-800">
+            <h1 class="text-7xl font-extrabold text-white tracking-tighter">PidiLang</h1>
+            <p id="loading-msg" class="text-orange-500 font-mono text-sm animate-pulse mt-2">Warming up PidiEngine... wait small...</p>
         </header>
 
-        <section class="bg-official-card p-4 rounded-lg border border-gray-800 shadow-xl">
-            <textarea id="user-code" class="w-full h-48 bg-official-code text-white p-4 font-mono rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none border border-gray-700" spellcheck="false">DAT_ME x = 2
-DAT_ME y = 2
-DAT_ME result = x JOIN_AM y
-TALK_AM result
+        <section class="mt-10 bg-official-card p-6 rounded-lg border border-gray-800 shadow-2xl">
+            <h2 class="text-2xl font-bold mb-4">Live Playground</h2>
+            <textarea id="user-code" class="w-full h-48 bg-official-code text-white p-4 font-mono rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none border border-gray-700" spellcheck="false">DAT_ME x = 10
+DAT_ME y = 5
+DAT_ME total = x JOIN_AM y
+TALK_AM total
 FINISH</textarea>
-            
             <button py-click="run_pidi" id="run-btn" class="w-full bg-official-accent hover:bg-blue-600 text-white font-bold py-4 rounded transition active:scale-95">RUN_AM</button>
-            
-            <div class="mt-6">
-                <div class="flex justify-between text-xs text-gray-500 mb-2 font-mono uppercase tracking-widest">
-                    <span>Terminal Output</span>
-                </div>
-                <div id="output">Console ready. Write code and click RUN_AM.</div>
+            <div id="output" class="mt-4">Console ready...</div>
+        </section>
+
+        <section class="mt-20">
+            <h2 class="text-4xl font-black text-white mb-8 border-l-8 border-blue-500 pl-4">THE BIG 60 LEXICON</h2>
+            <div class="overflow-x-auto rounded-lg border border-gray-800">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-official-card text-blue-400 uppercase text-sm">
+                        <tr>
+                            <th class="p-4 border-b border-gray-800">Keyword</th>
+                            <th class="p-4 border-b border-gray-800">Interpretation</th>
+                            <th class="p-4 border-b border-gray-800">Function</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300 text-sm">
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">DAT_ME</td><td class="p-4">"That is me"</td><td class="p-4">Variable Declaration / Assignment</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">TALK_AM</td><td class="p-4">"Say it"</td><td class="p-4">Print / Standard Output</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">ASK_AM</td><td class="p-4">"Ask it"</td><td class="p-4">User Input Request</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">JOIN_AM</td><td class="p-4">"Add it"</td><td class="p-4">Addition (+)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">MINUS_AM</td><td class="p-4">"Subtract it"</td><td class="p-4">Subtraction (-)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">TIMES_AM</td><td class="p-4">"Multiply it"</td><td class="p-4">Multiplication (*)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SHARE_AM</td><td class="p-4">"Divide it"</td><td class="p-4">Division (/)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SUPPOSE</td><td class="p-4">"If"</td><td class="p-4">Conditional Statement Starts</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">E_BE_SAME</td><td class="p-4">"It is equal"</td><td class="p-4">Equality Operator (==)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">NO_BE_SAME</td><td class="p-4">"Not equal"</td><td class="p-4">Inequality (!=)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">PASS_AM</td><td class="p-4">"Greater than"</td><td class="p-4">Comparison (>)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">UNDER_AM</td><td class="p-4">"Less than"</td><td class="p-4">Comparison (<)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SOTEY</td><td class="p-4">"Until"</td><td class="p-4">While Loop</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">WAKA_ROUND</td><td class="p-4">"Walk around"</td><td class="p-4">For Loop / Iteration</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">FINISH</td><td class="p-4">"The end"</td><td class="p-4">Program Termination</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SENSE_AM</td><td class="p-4">"Reason it"</td><td class="p-4">AI Analysis / Logic Check</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">KOLO_AM</td><td class="p-4">"Go crazy"</td><td class="p-4">Randomizer / Erratic Logic</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">TRY_YOUR_BEST</td><td class="p-4">"Try"</td><td class="p-4">Error Handling (Try block)</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">IF_E_BAD</td><td class="p-4">"If it fails"</td><td class="p-4">Catch block</td></tr>
+                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">MUMU_ERROR</td><td class="p-4">"Stupid error"</td><td class="p-4">Syntax / Logic Exception</td></tr>
+                        </tbody>
+                </table>
             </div>
+            <p class="mt-4 text-gray-500 italic text-sm">* Full 60 list: CHOP_AM, GET_OUT, LISTEN_AM, FIX_AM, TEST_AM, NA_SO, NO_BE_SO, NETWORK_AM, KPA_AM, BOLA_AM, TIGHT_AM, LOOSE_AM, WETIN_BE, WHO_BE, HOW_FAR, DIVE_IN, JUMP_OUT, SHARP_SHARP, SOFT_SOFT, CHILL_AM, VEX_AM, JOY_AM, LOAD_AM, SEND_AM, CATCH_AM, THROW_AM, ALWAYS_DO, STANDBY, SHUTDOWN, RESTART, OBEY_AM, DISOBEY_AM, SABI_AM, FORGET_AM, GIVE_AM, TAKE_AM, DOUBT_AM, TRUST_AM, CHECK_AM, WAIT_AM, GO_SLOW, RUN_FAST, LEVEL_UP, GROUND_AM, SKY_AM, FIRE_AM, WATER_AM, BREEZE_AM.</p>
         </section>
 
         <script type="py">
 import re
 from pyscript import document
 
-# This signal tells you the engine is 100% loaded
 document.querySelector("#loading-msg").innerText = "PidiEngine Ready ✅"
 document.querySelector("#loading-msg").classList.remove("animate-pulse")
 document.querySelector("#loading-msg").classList.add("text-green-500")
 
 def run_pidi(event):
-    # 1. Clear previous output immediately to show it's working
     out_box = document.querySelector("#output")
     out_box.innerText = "Processing...\n"
-    
-    # 2. Get the code
     code_input = document.querySelector("#user-code").value
     
     memory = {}
     running = True
     
-    # Big 60 Keywords List
     keywords = ['E_BE_SAME', 'ADD_AM', 'JOIN_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM', 'SUPPOSE', 'SOTEY', 'DAT_ME', 'TALK_AM', 'ASK_AM', 'FINISH', 'NO_BE_SAME', 'PASS_AM', 'UNDER_AM', 'WAKA_ROUND', 'CHOP_AM', 'GET_OUT', 'LISTEN_AM', 'FIX_AM', 'TEST_AM', 'NA_SO', 'NO_BE_SO', 'MUMU_ERROR', 'SENSE_AM', 'NETWORK_AM', 'KPA_AM', 'BOLA_AM', 'TIGHT_AM', 'LOOSE_AM', 'WETIN_BE', 'WHO_BE', 'HOW_FAR', 'DIVE_IN', 'JUMP_OUT', 'SHARP_SHARP', 'SOFT_SOFT', 'KOLO_AM', 'CHILL_AM', 'VEX_AM', 'JOY_AM', 'LOAD_AM', 'SEND_AM', 'CATCH_AM', 'THROW_AM', 'TRY_YOUR_BEST', 'IF_E_BAD', 'ALWAYS_DO', 'STANDBY', 'SHUTDOWN', 'RESTART', 'OBEY_AM', 'DISOBEY_AM', 'SABI_AM', 'FORGET_AM', 'GIVE_AM', 'TAKE_AM', 'DOUBT_AM', 'TRUST_AM', 'CHECK_AM', 'WAIT_AM', 'GO_SLOW', 'RUN_FAST', 'LEVEL_UP', 'GROUND_AM', 'SKY_AM', 'FIRE_AM', 'WATER_AM', 'BREEZE_AM']
     
-    # Updated pattern to capture everything properly
     pattern = r'("[^"]*"|[a-zA-Z_]\w*|\d+|\+|\-|\*|\/|\=|\(|\))'
     tokens = re.findall(pattern, code_input)
 
     i = 0
     while i < len(tokens) and running:
         token = tokens[i]
-        
         if token == 'DAT_ME':
             var_name = tokens[i+1]
-            if tokens[i+2] == '=':
-                # Check for Math Algorithms
-                if i + 5 < len(tokens) and tokens[i+4] in ['JOIN_AM', 'ADD_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM']:
-                    v1 = int(memory.get(tokens[i+3], tokens[i+3]))
-                    v2 = int(memory.get(tokens[i+5], tokens[i+5]))
-                    op = tokens[i+4]
-                    if op == 'JOIN_AM' or op == 'ADD_AM': memory[var_name] = v1 + v2
-                    elif op == 'MINUS_AM': memory[var_name] = v1 - v2
-                    elif op == 'TIMES_AM': memory[var_name] = v1 * v2
-                    elif op == 'SHARE_AM': memory[var_name] = v1 // v2
-                    i += 6
-                else:
-                    val = tokens[i+3]
-                    memory[var_name] = val.replace('"', '') if val.startswith('"') else int(val)
-                    i += 4
+            if i + 5 < len(tokens) and tokens[i+4] in ['JOIN_AM', 'ADD_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM']:
+                v1 = int(memory.get(tokens[i+3], tokens[i+3]))
+                v2 = int(memory.get(tokens[i+5], tokens[i+5]))
+                op = tokens[i+4]
+                if op == 'JOIN_AM' or op == 'ADD_AM': memory[var_name] = v1 + v2
+                elif op == 'MINUS_AM': memory[var_name] = v1 - v2
+                elif op == 'TIMES_AM': memory[var_name] = v1 * v2
+                elif op == 'SHARE_AM': memory[var_name] = v1 // v2
+                i += 6
+            else:
+                val = tokens[i+3]
+                memory[var_name] = val.replace('"', '') if val.startswith('"') else int(val)
+                i += 4
             continue
-
         elif token == 'TALK_AM':
             target = tokens[i+1]
             val = memory.get(target, target)
-            # Send to the actual screen div
             out_box.innerText += str(val).replace('"', '') + "\n"
             i += 2
             continue
-
         elif token == 'FINISH':
             running = False
             break
-        
-        # Check for Invalid Lexicon
         elif token not in keywords and token not in memory and not token.isdigit() and not token.startswith('"') and token not in ['=', '(', ')']:
             out_box.innerText += f"ERROR: Invalid lexicon '{token}' detected.\n"
             i += 1
             continue
-            
         else:
             i += 1
         </script>
 
-        <footer class="text-center py-10 text-gray-600 text-xs">
-            &copy; 2026 PidiLang Project. v1.2.1
+        <footer class="text-center py-20 text-gray-600 text-sm border-t border-gray-900 mt-20">
+            &copy; 2026 PidiLang Project. The Official Language of the Culture.
         </footer>
     </div>
 </body>
-</html>
+                                                                                                                                                                                       </html>
