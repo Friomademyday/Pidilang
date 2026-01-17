@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PidiLang: Official Language Specification</title>
+    <title>PidiLang: Live Playground</title>
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,7 +13,6 @@
                 extend: {
                     colors: {
                         'official-bg': '#0A0A0A',
-                        'official-text': '#FAFAFA',
                         'official-accent': '#3B82F6',
                         'official-card': '#111827',
                         'official-code': '#1F2937',
@@ -23,73 +22,106 @@
         }
     </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-        body { background-color: #0A0A0A; color: #FAFAFA; font-family: 'Inter', sans-serif; }
-        .playground-box { background-color: #111827; border: 2px solid #3B82F6; border-radius: 8px; }
-        #output { background-color: #000; color: #22c55e; font-family: monospace; padding: 10px; min-height: 100px; border-radius: 4px; }
+        body { background-color: #0A0A0A; color: #FAFAFA; font-family: sans-serif; }
+        #output { background-color: #000; color: #22c55e; font-family: monospace; padding: 15px; min-height: 120px; border: 1px solid #333; white-space: pre-wrap; }
+        .error-text { color: #ef4444; font-weight: bold; }
     </style>
 </head>
-<body class="p-4 md:p-12">
+<body class="p-4">
 
-    <div class="max-w-5xl mx-auto">
-        <header class="text-center py-10 mb-12 border-b-2 border-official-card">
-            <h1 class="text-7xl font-extrabold text-white tracking-tighter">PidiLang</h1>
-            <p class="text-2xl text-official-accent mt-3 font-medium">The Official Language Specification</p>
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center py-6">
+            <h1 class="text-5xl font-extrabold text-white">PidiLang</h1>
+            <p id="loading-msg" class="text-orange-500 font-mono text-sm animate-pulse mt-2">Engine is warming up... wait small...</p>
         </header>
 
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6">Pidi Playground (Try it Live)</h2>
-            <div class="playground-box p-6">
-                <textarea id="user-code" class="w-full h-48 bg-official-code text-white p-4 font-mono rounded mb-4 focus:outline-none border border-gray-700" placeholder="Write PidiLang here...">DAT_ME name = "Friend"
-TALK_AM "How far,"
-TALK_AM name
+        <section class="bg-official-card p-4 rounded-lg border border-gray-800 shadow-xl">
+            <textarea id="user-code" class="w-full h-48 bg-official-code text-white p-4 font-mono rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none border border-gray-700" spellcheck="false">DAT_ME x = 10
+INVALID_WORD_TEST
+TALK_AM x
 FINISH</textarea>
-                <button py-click="run_pidi" class="bg-official-accent hover:bg-blue-600 text-white font-bold py-2 px-6 rounded transition">RUN_AM</button>
-                
-                <div class="mt-6">
-                    <p class="text-sm text-gray-400 mb-2 font-mono uppercase">Console Output:</p>
-                    <div id="output"></div>
+            
+            <button py-click="run_pidi" id="run-btn" class="w-full bg-official-accent hover:bg-blue-600 text-white font-bold py-4 rounded transition active:scale-95">RUN_AM (EXECUTE)</button>
+            
+            <div class="mt-6">
+                <div class="flex justify-between text-xs text-gray-500 mb-2 font-mono uppercase">
+                    <span>Terminal Output</span>
+                    <button onclick="document.getElementById('output').innerText=''" class="hover:text-white underline">Clear</button>
                 </div>
+                <div id="output">System standby...</div>
             </div>
         </section>
 
         <script type="py">
-            import re
-            from pyscript import document
+import re
+from pyscript import document
 
-            def run_pidi(event):
-                code = document.querySelector("#user-code").value
-                output_div = document.querySelector("#output")
-                output_div.innerText = ""
-                
-                memory = {}
-                running = True
-                
-                pattern = r'("[^"]*"|[a-zA-Z_]\w*|\d+|\+|\-|\*|\/|\=|\(|\)|E_BE_SAME|JOIN_AM|MINUS_AM|TIMES_AM|SHARE_AM|SUPPOSE|SOTEY|DAT_ME|TALK_AM|ASK_AM|FINISH|NO_BE_SAME|PASS_AM|UNDER_AM)'
-                tokens = re.findall(pattern, code)
+document.querySelector("#loading-msg").innerText = "PidiEngine Ready ✅"
+document.querySelector("#loading-msg").classList.remove("animate-pulse")
+document.querySelector("#loading-msg").classList.add("text-green-500")
 
-                i = 0
-                while i < len(tokens) and running:
-                    token = tokens[i]
-                    if token == 'DAT_ME':
-                        var_name = tokens[i+1]
-                        val = tokens[i+3]
-                        memory[var_name] = val.replace('"', '') if val.startswith('"') else int(val)
-                        i += 4
-                    elif token == 'TALK_AM':
-                        target = tokens[i+1]
-                        result = memory.get(target, target.replace('"', ''))
-                        output_div.innerText += str(result) + "\n"
-                        i += 2
-                    elif token == 'FINISH':
-                        running = False
-                        break
-                    else:
-                        i += 1
+def run_pidi(event):
+    code = document.querySelector("#user-code").value
+    output_div = document.querySelector("#output")
+    output_div.innerText = ""
+    
+    memory = {}
+    running = True
+    
+    keywords = ['E_BE_SAME', 'ADD_AM', 'JOIN_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM', 'SUPPOSE', 'SOTEY', 'DAT_ME', 'TALK_AM', 'ASK_AM', 'FINISH', 'NO_BE_SAME', 'PASS_AM', 'UNDER_AM', 'WAKA_ROUND', 'CHOP_AM', 'GET_OUT', 'LISTEN_AM', 'FIX_AM', 'TEST_AM', 'NA_SO', 'NO_BE_SO', 'MUMU_ERROR', 'SENSE_AM', 'NETWORK_AM', 'KPA_AM', 'BOLA_AM', 'TIGHT_AM', 'LOOSE_AM', 'WETIN_BE', 'WHO_BE', 'HOW_FAR', 'DIVE_IN', 'JUMP_OUT', 'SHARP_SHARP', 'SOFT_SOFT', 'KOLO_AM', 'CHILL_AM', 'VEX_AM', 'JOY_AM', 'LOAD_AM', 'SEND_AM', 'CATCH_AM', 'THROW_AM', 'TRY_YOUR_BEST', 'IF_E_BAD', 'ALWAYS_DO', 'STANDBY', 'SHUTDOWN', 'RESTART', 'OBEY_AM', 'DISOBEY_AM', 'SABI_AM', 'FORGET_AM', 'GIVE_AM', 'TAKE_AM', 'DOUBT_AM', 'TRUST_AM', 'CHECK_AM', 'WAIT_AM', 'GO_SLOW', 'RUN_FAST', 'LEVEL_UP', 'GROUND_AM', 'SKY_AM', 'FIRE_AM', 'WATER_AM', 'BREEZE_AM']
+    
+    pattern = r'("[^"]*"|[a-zA-Z_]\w*|\d+|\+|\-|\*|\/|\=|\(|\))'
+    tokens = re.findall(pattern, code)
+
+    i = 0
+    while i < len(tokens) and running:
+        token = tokens[i]
+        
+        if token == 'DAT_ME':
+            var_name = tokens[i+1]
+            if tokens[i+2] == '=':
+                if i + 5 < len(tokens) and tokens[i+4] in ['JOIN_AM', 'ADD_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM']:
+                    val1 = memory.get(tokens[i+3], tokens[i+3])
+                    val2 = memory.get(tokens[i+5], tokens[i+5])
+                    try:
+                        v1 = int(val1)
+                        v2 = int(val2)
+                        op = tokens[i+4]
+                        if op == 'JOIN_AM' or op == 'ADD_AM': memory[var_name] = v1 + v2
+                        elif op == 'MINUS_AM': memory[var_name] = v1 - v2
+                        elif op == 'TIMES_AM': memory[var_name] = v1 * v2
+                        elif op == 'SHARE_AM': memory[var_name] = v1 // v2
+                    except:
+                        output_div.innerText += "MUMU_ERROR: Math no fit work.\n"
+                    i += 6
+                else:
+                    val = tokens[i+3]
+                    memory[var_name] = val.replace('"', '') if val.startswith('"') else int(val)
+                    i += 4
+            continue
+
+        elif token == 'TALK_AM':
+            target = tokens[i+1]
+            val = memory.get(target, target)
+            output_div.innerText += str(val).replace('"', '') + "\n"
+            i += 2
+            continue
+
+        elif token == 'FINISH':
+            running = False
+            break
+        
+        elif token in keywords or token in memory or token.isdigit() or token.startswith('"') or token in ['=', '(', ')']:
+            i += 1
+            continue
+            
+        else:
+            output_div.innerText += f"ERROR: Invalid lexicon '{token}' detected.\n"
+            i += 1
         </script>
 
-        <footer class="text-center pt-8 mt-12 border-t border-official-code">
-            <p class="text-gray-500 text-sm">&copy; 2026 PidiLang Project. v1.1.0</p>
+        <footer class="text-center py-10 text-gray-600 text-xs">
+            &copy; 2026 PidiLang Project. Strict Engine v1.1.5
         </footer>
     </div>
 </body>
