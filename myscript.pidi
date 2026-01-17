@@ -1,0 +1,6 @@
+DAT_ME power = 10
+DAT_ME boost = 5
+DAT_ME total = power JOIN_AM boost
+TALK_AM "Pidi Engine Level:"
+TALK_AM total
+FINISH
