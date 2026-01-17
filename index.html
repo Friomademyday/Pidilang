@@ -44,13 +44,16 @@
             margin-top: 3rem;
             color: #9CA3AF;
         }
-        .keyword-style {
+        .keyword-badge {
+            display: inline-block;
+            background-color: #1F2937;
             color: #3B82F6;
-            font-weight: 700;
-        }
-        .table-header {
-            background-color: #111827;
-            color: #FAFAFA;
+            padding: 2px 8px;
+            margin: 4px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            border: 1px solid #3B82F6;
         }
     </style>
 </head>
@@ -59,128 +62,64 @@
     <div class="max-w-5xl mx-auto p-4 md:p-12">
         
         <header class="text-center py-10 mb-12 border-b-2 border-official-card">
+            <div class="inline-block bg-green-900 text-green-300 text-xs px-3 py-1 rounded-full mb-4 font-mono tracking-widest uppercase">Engine Status: Stable</div>
             <h1 class="text-7xl font-extrabold text-white tracking-tighter">PidiLang</h1>
-            <p class="text-2xl text-official-accent mt-3 font-medium">The Official Language Specification — v1.0.0</p>
+            <p class="text-2xl text-official-accent mt-3 font-medium">The Official Language Specification — v1.0.6</p>
         </header>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-bold">1. Project Philosophy and Intent</h2>
-            <p class="mt-4 text-gray-300">PidiLang is an open-source, highly expressive programming language built on the West African Pidgin English dialect. Our core mission is to **democratize access to coding** by utilizing an intuitive, globally understood, and culturally rich lexicon, making the journey from novice to competent developer as straightforward as a conversation.</p>
+            <h2 class="text-3xl font-bold">1. Project Philosophy</h2>
+            <p class="mt-4 text-gray-300">PidiLang is built on the West African Pidgin English dialect to democratize access to coding.</p>
         </section>
 
         <section class="mb-12">
-            <h2 class="text-3xl font-bold">2. Installation and Setup</h2>
-            <p class="mt-4 text-gray-300">To get started with the PidiLang interpreter (PidiShell), you must first download the CLI tool:</p>
-            <div class="code-block-style font-mono mt-4 text-sm text-gray-300">
-                <span class="text-green-400">$</span> install pidilang --global
-            </div>
-            <p class="mt-4 text-gray-300">Verify your installation:</p>
-            <div class="code-block-style font-mono mt-4 text-sm text-gray-300">
-                <span class="text-green-400">$</span> pidishell --version
-                <br>
-                <span class="text-white">PidiLang Runtime v1.0.0 (Wahala-Free)</span>
-            </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold">3. Core Lexicon and Keywords</h2>
-            <p class="mt-4 text-gray-300">PidiLang is defined by its concise and powerful set of commands:</p>
-
-            <div class="overflow-x-auto mt-6 rounded-lg border border-official-card">
-                <table class="w-full text-left table-fixed">
-                    <thead class="table-header text-xs uppercase tracking-wider">
-                        <tr>
-                            <th class="w-1/5 p-4">Category</th>
-                            <th class="w-1/4 p-4">PidiLang Keyword</th>
-                            <th class="w-1/2 p-4">Programming Function / Intent</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm text-gray-400 divide-y divide-official-card">
-                        <tr class="hover:bg-official-code transition duration-150">
-                            <td class="p-4 font-semibold text-gray-300">Data/Vars</td>
-                            <td class="p-4"><span class="keyword-style">DAT_ME</span></td>
-                            <td class="p-4">Variable declaration and assignment. Example: DAT_ME score = 100</td>
-                        </tr>
-                        <tr class="hover:bg-official-code transition duration-150">
-                            <td class="p-4 font-semibold text-gray-300">Artificial Intel</td>
-                            <td class="p-4"><span class="keyword-style">SENSE_AM</span> / <span class="keyword-style">KOLO_AM</span></td>
-                            <td class="p-4">Native AI processing for pattern matching and erratic logic handling.</td>
-                        </tr>
-                        <tr class="hover:bg-official-code transition duration-150">
-                            <td class="p-4 font-semibold text-gray-300">Logic Gate</td>
-                            <td class="p-4"><span class="keyword-style">SUPPOSE</span></td>
-                            <td class="p-4">Standard Conditional (If Statement). Supports E_BE_SAME, PASS_AM, UNDER_AM.</td>
-                        </tr>
-                        <tr class="hover:bg-official-code transition duration-150">
-                            <td class="p-4 font-semibold text-gray-300">Iteration</td>
-                            <td class="p-4"><span class="keyword-style">SOTEY</span> / <span class="keyword-style">WAKA_ROUND</span></td>
-                            <td class="p-4">Looping mechanisms for indefinite repetition or collection traversal.</td>
-                        </tr>
-                        <tr class="hover:bg-official-code transition duration-150">
-                            <td class="p-4 font-semibold text-gray-300">Algorithms</td>
-                            <td class="p-4"><span class="keyword-style">JOIN_AM</span> / <span class="keyword-style">TIMES_AM</span> / <span class="keyword-style">SHARE_AM</span></td>
-                            <td class="p-4">Arithmetic operations for Addition, Multiplication, and Division.</td>
-                        </tr>
-                        <tr class="hover:bg-official-code transition duration-150">
-                            <td class="p-4 font-semibold text-gray-300">I/O & Input</td>
-                            <td class="p-4"><span class="keyword-style">TALK_AM</span> / <span class="keyword-style">ASK_AM</span></td>
-                            <td class="p-4">Standard Output (Print) and User Input commands.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold">4. Exception Management (Wahala Handling)</h2>
-            <p class="mt-4 text-gray-300">PidiLang uses clear, direct blocks to manage runtime errors, or **"Wahala"** (Trouble).</p>
+            <h2 class="text-3xl font-bold">2. The Big 60: Full Lexicon Reference</h2>
+            <p class="mt-4 mb-6 text-gray-300">The following 60 keywords are reserved and recognized by the PidiEngine runtime:</p>
             
-            <div class="mt-6 grid md:grid-cols-3 gap-6">
-                <div class="bg-official-card p-5 rounded-lg border border-official-code">
-                    <p class="text-xl font-semibold text-official-accent">TRY_YOUR_BEST</p>
-                    <p class="text-gray-400 mt-2">The block of code where exceptions are anticipated. The equivalent of a standard `try` block.</p>
-                </div>
-                <div class="bg-official-card p-5 rounded-lg border border-official-code">
-                    <p class="text-xl font-semibold text-official-accent">IF_E_BAD</p>
-                    <p class="text-gray-400 mt-2">The handler for catching and mitigating the `Wahala`. Executes only upon failure (`catch`).</p>
-                </div>
-                <div class="bg-official-card p-5 rounded-lg border border-official-code">
-                    <p class="text-xl font-semibold text-official-accent">MUMU_ERROR</p>
-                    <p class="text-gray-400 mt-2">The global error signal raised when the engine detects a fatal logic flaw.</p>
-                </div>
+            <div class="bg-official-card p-6 rounded-lg border border-official-code flex flex-wrap justify-center">
+                <span class="keyword-badge">DAT_ME</span> <span class="keyword-badge">TALK_AM</span> <span class="keyword-badge">ASK_AM</span>
+                <span class="keyword-badge">SUPPOSE</span> <span class="keyword-badge">SOTEY</span> <span class="keyword-badge">FINISH</span>
+                <span class="keyword-badge">JOIN_AM</span> <span class="keyword-badge">MINUS_AM</span> <span class="keyword-badge">TIMES_AM</span>
+                <span class="keyword-badge">SHARE_AM</span> <span class="keyword-badge">SENSE_AM</span> <span class="keyword-badge">KOLO_AM</span>
+                <span class="keyword-badge">E_BE_SAME</span> <span class="keyword-badge">NO_BE_SAME</span> <span class="keyword-badge">PASS_AM</span>
+                <span class="keyword-badge">UNDER_AM</span> <span class="keyword-badge">WAKA_ROUND</span> <span class="keyword-badge">CHOP_AM</span>
+                <span class="keyword-badge">GET_OUT</span> <span class="keyword-badge">LISTEN_AM</span> <span class="keyword-badge">FIX_AM</span>
+                <span class="keyword-badge">TEST_AM</span> <span class="keyword-badge">NA_SO</span> <span class="keyword-badge">NO_BE_SO</span>
+                <span class="keyword-badge">MUMU_ERROR</span> <span class="keyword-badge">NETWORK_AM</span> <span class="keyword-badge">KPA_AM</span>
+                <span class="keyword-badge">BOLA_AM</span> <span class="keyword-badge">TIGHT_AM</span> <span class="keyword-badge">LOOSE_AM</span>
+                <span class="keyword-badge">WETIN_BE</span> <span class="keyword-badge">WHO_BE</span> <span class="keyword-badge">HOW_FAR</span>
+                <span class="keyword-badge">DIVE_IN</span> <span class="keyword-badge">JUMP_OUT</span> <span class="keyword-badge">SHARP_SHARP</span>
+                <span class="keyword-badge">SOFT_SOFT</span> <span class="keyword-badge">CHILL_AM</span> <span class="keyword-badge">VEX_AM</span>
+                <span class="keyword-badge">JOY_AM</span> <span class="keyword-badge">LOAD_AM</span> <span class="keyword-badge">SEND_AM</span>
+                <span class="keyword-badge">CATCH_AM</span> <span class="keyword-badge">THROW_AM</span> <span class="keyword-badge">TRY_YOUR_BEST</span>
+                <span class="keyword-badge">IF_E_BAD</span> <span class="keyword-badge">ALWAYS_DO</span> <span class="keyword-badge">STANDBY</span>
+                <span class="keyword-badge">SHUTDOWN</span> <span class="keyword-badge">RESTART</span> <span class="keyword-badge">OBEY_AM</span>
+                <span class="keyword-badge">DISOBEY_AM</span> <span class="keyword-badge">SABI_AM</span> <span class="keyword-badge">FORGET_AM</span>
+                <span class="keyword-badge">GIVE_AM</span> <span class="keyword-badge">TAKE_AM</span> <span class="keyword-badge">DOUBT_AM</span>
+                <span class="keyword-badge">TRUST_AM</span> <span class="keyword-badge">CHECK_AM</span> <span class="keyword-badge">WAIT_AM</span>
+                <span class="keyword-badge">GO_SLOW</span> <span class="keyword-badge">RUN_FAST</span> <span class="keyword-badge">LEVEL_UP</span>
+                <span class="keyword-badge">GROUND_AM</span> <span class="keyword-badge">SKY_AM</span> <span class="keyword-badge">FIRE_AM</span>
+                <span class="keyword-badge">WATER_AM</span> <span class="keyword-badge">BREEZE_AM</span>
             </div>
+        </section>
 
-            <h3 class="text-2xl font-bold mt-10 mb-4 text-white">Example: Division by Zero Wahala</h3>
-            <pre class="code-block-style font-mono text-sm text-gray-300">
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold">3. Wahala Handling</h2>
+            <pre class="code-block-style font-mono text-sm text-gray-300 mt-4">
 <span class="keyword-style">TRY_YOUR_BEST</span> (
-    <span class="keyword-style">DAT_ME</span> dividend = 100
-    <span class="keyword-style">DAT_ME</span> divisor = 0
-    <span class="keyword-style">DAT_ME</span> result = dividend SHARE_AM divisor
-    <span class="keyword-style">TALK_AM</span> result
+    <span class="keyword-style">DAT_ME</span> val = 10 SHARE_AM 0
 )
-
 <span class="keyword-style">IF_E_BAD</span> (
-    <span class="keyword-style">TALK_AM</span> "Math no straight. No divide by zero!"
+    <span class="keyword-style">TALK_AM</span> "MUMU_ERROR: No divide by zero!"
 )
             </pre>
         </section>
-        
-        <section class="mb-12">
-            <h2 class="text-3xl font-bold">5. Roadmap and Development</h2>
-            <p class="mt-4 text-gray-300">We are committed to continuous integration and expansion of the PidiLang ecosystem. Key upcoming features include:</p>
-            <ul class="list-disc list-inside mt-4 space-y-2 text-gray-400 pl-4">
-                <li class="hover:text-official-accent transition duration-150">**v1.1:** Native support for asynchronous operations (`WAIT_AM`).</li>
-                <li class="hover:text-official-accent transition duration-150">**v1.2:** Compiler integration for faster binary execution.</li>
-                <li class="hover:text-official-accent transition duration-150">**v1.3:** Pidi Package Manager (`pidi-pkg`) for dependency management.</li>
-            </ul>
-        </section>
 
         <footer class="text-center pt-8 mt-12 border-t border-official-code">
-            <p class="text-gray-500 text-sm">&copy; 2026 PidiLang Project. All Rights Reserved. Specification Version 1.0.0</p>
-            <p class="text-gray-500 text-sm mt-1">Contribute to the project on <a href="#" class="text-official-accent hover:underline transition duration-150">GitHub</a>.</p>
+            <p class="text-gray-500 text-sm">&copy; 2026 PidiLang Project. v1.0.6</p>
         </footer>
 
     </div>
 
 </body>
-    </html>
+                                                                                                     </html>
