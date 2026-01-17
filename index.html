@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PidiLang: Complete Specification</title>
+    <title>PidiLang: Official v1.5.0 Specification</title>
     <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
     <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,95 +12,167 @@
             theme: {
                 extend: {
                     colors: {
-                        'official-bg': '#0A0A0A',
-                        'official-accent': '#3B82F6',
-                        'official-card': '#111827',
-                        'official-code': '#1F2937',
+                        'pidi-gold': '#FACC15',
+                        'pidi-dark': '#050505',
+                        'pidi-card': '#0F172A',
+                        'pidi-accent': '#3B82F6',
                     }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #0A0A0A; color: #FAFAFA; font-family: sans-serif; scroll-behavior: smooth; }
-        #output { background-color: #000; color: #22c55e; font-family: monospace; padding: 15px; min-height: 120px; border: 1px solid #333; white-space: pre-wrap; font-size: 1.1rem; }
-        .keyword-row:hover { background-color: #1F2937; }
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap');
+        body { background-color: #050505; color: #E2E8F0; font-family: 'Space+Grotesk', sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        #output { background-color: #000; color: #FACC15; font-family: 'Fira Code', monospace; padding: 20px; min-height: 150px; border: 1px solid #FACC15; white-space: pre-wrap; border-radius: 8px; box-shadow: inset 0 0 10px #facc1533; }
+        .lexicon-scroll { max-height: 600px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #FACC15 #0F172A; }
     </style>
 </head>
-<body class="p-4">
+<body class="p-4 md:p-8">
 
-    <div class="max-w-6xl mx-auto">
-        <header class="text-center py-10 border-b border-gray-800">
-            <h1 class="text-7xl font-extrabold text-white tracking-tighter">PidiLang</h1>
-            <p id="loading-msg" class="text-orange-500 font-mono text-sm animate-pulse mt-2">Warming up PidiEngine... wait small...</p>
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center py-12">
+            <h1 class="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pidi-gold to-pidi-accent tracking-tighter mb-4">PidiLang</h1>
+            <div id="loading-msg" class="inline-block px-4 py-1 rounded-full border border-orange-500 text-orange-500 text-xs font-bold uppercase tracking-widest animate-pulse">Initializing PidiEngine Runtime...</div>
         </header>
 
-        <section class="mt-10 bg-official-card p-6 rounded-lg border border-gray-800 shadow-2xl">
-            <h2 class="text-2xl font-bold mb-4">Live Playground</h2>
-            <textarea id="user-code" class="w-full h-48 bg-official-code text-white p-4 font-mono rounded mb-4 focus:ring-2 focus:ring-blue-500 outline-none border border-gray-700" spellcheck="false">DAT_ME x = 10
-DAT_ME y = 5
-DAT_ME total = x JOIN_AM y
-TALK_AM total
+        <div class="grid lg:grid-cols-2 gap-8">
+            
+            <div class="glass p-8 rounded-3xl shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-pidi-gold">Live Playground</h2>
+                    <span class="text-xs font-mono text-gray-500">v1.5.0-STRICT</span>
+                </div>
+                <textarea id="user-code" class="w-full h-80 bg-black/50 text-white p-6 font-mono rounded-xl mb-6 focus:ring-2 focus:ring-pidi-gold outline-none border border-gray-800 text-lg shadow-inner" spellcheck="false">DAT_ME name = "PidiUser"
+DAT_ME score = 100
+DAT_ME bonus = 50
+DAT_ME final = score JOIN_AM bonus
+TALK_AM "Welcome:"
+TALK_AM name
+TALK_AM "Final Score:"
+TALK_AM final
 FINISH</textarea>
-            <button py-click="run_pidi" id="run-btn" class="w-full bg-official-accent hover:bg-blue-600 text-white font-bold py-4 rounded transition active:scale-95">RUN_AM</button>
-            <div id="output" class="mt-4">Console ready...</div>
-        </section>
-
-        <section class="mt-20">
-            <h2 class="text-4xl font-black text-white mb-8 border-l-8 border-blue-500 pl-4">THE BIG 60 LEXICON</h2>
-            <div class="overflow-x-auto rounded-lg border border-gray-800">
-                <table class="w-full text-left border-collapse">
-                    <thead class="bg-official-card text-blue-400 uppercase text-sm">
-                        <tr>
-                            <th class="p-4 border-b border-gray-800">Keyword</th>
-                            <th class="p-4 border-b border-gray-800">Interpretation</th>
-                            <th class="p-4 border-b border-gray-800">Function</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-300 text-sm">
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">DAT_ME</td><td class="p-4">"That is me"</td><td class="p-4">Variable Declaration / Assignment</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">TALK_AM</td><td class="p-4">"Say it"</td><td class="p-4">Print / Standard Output</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">ASK_AM</td><td class="p-4">"Ask it"</td><td class="p-4">User Input Request</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">JOIN_AM</td><td class="p-4">"Add it"</td><td class="p-4">Addition (+)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">MINUS_AM</td><td class="p-4">"Subtract it"</td><td class="p-4">Subtraction (-)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">TIMES_AM</td><td class="p-4">"Multiply it"</td><td class="p-4">Multiplication (*)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SHARE_AM</td><td class="p-4">"Divide it"</td><td class="p-4">Division (/)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SUPPOSE</td><td class="p-4">"If"</td><td class="p-4">Conditional Statement Starts</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">E_BE_SAME</td><td class="p-4">"It is equal"</td><td class="p-4">Equality Operator (==)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">NO_BE_SAME</td><td class="p-4">"Not equal"</td><td class="p-4">Inequality (!=)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">PASS_AM</td><td class="p-4">"Greater than"</td><td class="p-4">Comparison (>)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">UNDER_AM</td><td class="p-4">"Less than"</td><td class="p-4">Comparison (<)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SOTEY</td><td class="p-4">"Until"</td><td class="p-4">While Loop</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">WAKA_ROUND</td><td class="p-4">"Walk around"</td><td class="p-4">For Loop / Iteration</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">FINISH</td><td class="p-4">"The end"</td><td class="p-4">Program Termination</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">SENSE_AM</td><td class="p-4">"Reason it"</td><td class="p-4">AI Analysis / Logic Check</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">KOLO_AM</td><td class="p-4">"Go crazy"</td><td class="p-4">Randomizer / Erratic Logic</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">TRY_YOUR_BEST</td><td class="p-4">"Try"</td><td class="p-4">Error Handling (Try block)</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">IF_E_BAD</td><td class="p-4">"If it fails"</td><td class="p-4">Catch block</td></tr>
-                        <tr class="keyword-row"><td class="p-4 font-mono text-blue-400">MUMU_ERROR</td><td class="p-4">"Stupid error"</td><td class="p-4">Syntax / Logic Exception</td></tr>
-                        </tbody>
-                </table>
+                <button py-click="run_pidi" class="w-full bg-pidi-gold hover:bg-white text-black font-black py-5 rounded-xl transition duration-300 transform active:scale-95 shadow-lg shadow-pidi-gold/20 uppercase tracking-widest">Execute Script (RUN_AM)</button>
+                <div class="mt-8">
+                    <h3 class="text-xs font-bold text-gray-500 mb-3 uppercase tracking-widest">System Output</h3>
+                    <div id="output">Waiting for instructions...</div>
+                </div>
             </div>
-            <p class="mt-4 text-gray-500 italic text-sm">* Full 60 list: CHOP_AM, GET_OUT, LISTEN_AM, FIX_AM, TEST_AM, NA_SO, NO_BE_SO, NETWORK_AM, KPA_AM, BOLA_AM, TIGHT_AM, LOOSE_AM, WETIN_BE, WHO_BE, HOW_FAR, DIVE_IN, JUMP_OUT, SHARP_SHARP, SOFT_SOFT, CHILL_AM, VEX_AM, JOY_AM, LOAD_AM, SEND_AM, CATCH_AM, THROW_AM, ALWAYS_DO, STANDBY, SHUTDOWN, RESTART, OBEY_AM, DISOBEY_AM, SABI_AM, FORGET_AM, GIVE_AM, TAKE_AM, DOUBT_AM, TRUST_AM, CHECK_AM, WAIT_AM, GO_SLOW, RUN_FAST, LEVEL_UP, GROUND_AM, SKY_AM, FIRE_AM, WATER_AM, BREEZE_AM.</p>
-        </section>
+
+            <div class="glass p-8 rounded-3xl shadow-2xl">
+                <h2 class="text-2xl font-bold text-pidi-accent mb-6">The Big 60 Manual</h2>
+                <div class="lexicon-scroll pr-4">
+                    <table class="w-full text-left">
+                        <thead class="sticky top-0 bg-pidi-card text-pidi-gold text-xs uppercase tracking-widest">
+                            <tr>
+                                <th class="p-4">Lexicon</th>
+                                <th class="p-4">Usage</th>
+                                <th class="p-4">Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lexicon-table-body" class="divide-y divide-gray-800">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <script type="py">
 import re
 from pyscript import document
 
+# UI Ready State
 document.querySelector("#loading-msg").innerText = "PidiEngine Ready ✅"
-document.querySelector("#loading-msg").classList.remove("animate-pulse")
-document.querySelector("#loading-msg").classList.add("text-green-500")
+document.querySelector("#loading-msg").classList.remove("border-orange-500", "text-orange-500", "animate-pulse")
+document.querySelector("#loading-msg").classList.add("border-pidi-gold", "text-pidi-gold")
+
+# The Big 60 Database
+big_60 = [
+    ("DAT_ME", "DAT_ME x = 5", "Create a variable"),
+    ("TALK_AM", "TALK_AM x", "Print to screen"),
+    ("ASK_AM", "ASK_AM 'Name?'", "Get user input"),
+    ("JOIN_AM", "x JOIN_AM y", "Add (+)"),
+    ("MINUS_AM", "x MINUS_AM y", "Subtract (-)"),
+    ("TIMES_AM", "x TIMES_AM y", "Multiply (*)"),
+    ("SHARE_AM", "x SHARE_AM y", "Divide (/)"),
+    ("SUPPOSE", "SUPPOSE x == 5", "If condition"),
+    ("E_BE_SAME", "x E_BE_SAME y", "Equality (==)"),
+    ("NO_BE_SAME", "x NO_BE_SAME y", "Not equal (!=)"),
+    ("PASS_AM", "x PASS_AM y", "Greater than (>)"),
+    ("UNDER_AM", "x UNDER_AM y", "Less than (<)"),
+    ("SOTEY", "SOTEY (x < 10)", "While loop"),
+    ("WAKA_ROUND", "WAKA_ROUND list", "For each loop"),
+    ("FINISH", "FINISH", "End program"),
+    ("SENSE_AM", "SENSE_AM x", "AI Analysis"),
+    ("KOLO_AM", "KOLO_AM x", "Random logic"),
+    ("TRY_YOUR_BEST", "TRY_YOUR_BEST", "Try block"),
+    ("IF_E_BAD", "IF_E_BAD", "Catch error"),
+    ("MUMU_ERROR", "MUMU_ERROR", "System crash"),
+    ("CHOP_AM", "CHOP_AM x", "Consume data"),
+    ("GET_OUT", "GET_OUT", "Exit loop"),
+    ("LISTEN_AM", "LISTEN_AM", "Event listener"),
+    ("FIX_AM", "FIX_AM x", "Debug variable"),
+    ("TEST_AM", "TEST_AM x", "Unit test"),
+    ("NA_SO", "NA_SO", "Boolean TRUE"),
+    ("NO_BE_SO", "NO_BE_SO", "Boolean FALSE"),
+    ("NETWORK_AM", "NETWORK_AM", "Connect online"),
+    ("KPA_AM", "KPA_AM", "Clear memory"),
+    ("BOLA_AM", "BOLA_AM", "Trash collection"),
+    ("TIGHT_AM", "TIGHT_AM x", "Compress"),
+    ("LOOSE_AM", "LOOSE_AM x", "Decompress"),
+    ("WETIN_BE", "WETIN_BE x", "Get type"),
+    ("WHO_BE", "WHO_BE x", "Get identity"),
+    ("HOW_FAR", "HOW_FAR", "System status"),
+    ("DIVE_IN", "DIVE_IN", "Open function"),
+    ("JUMP_OUT", "JUMP_OUT", "Return value"),
+    ("SHARP_SHARP", "SHARP_SHARP", "Fast execution"),
+    ("SOFT_SOFT", "SOFT_SOFT", "Low power mode"),
+    ("CHILL_AM", "CHILL_AM 100", "Sleep/Pause"),
+    ("VEX_AM", "VEX_AM", "Raise exception"),
+    ("JOY_AM", "JOY_AM", "Success signal"),
+    ("LOAD_AM", "LOAD_AM 'pkg'", "Import module"),
+    ("SEND_AM", "SEND_AM x", "Export / Push"),
+    ("CATCH_AM", "CATCH_AM x", "Pull / Receive"),
+    ("THROW_AM", "THROW_AM x", "Throw error"),
+    ("ALWAYS_DO", "ALWAYS_DO", "Finally block"),
+    ("STANDBY", "STANDBY", "Wait state"),
+    ("SHUTDOWN", "SHUTDOWN", "Kill process"),
+    ("RESTART", "RESTART", "Reset engine"),
+    ("OBEY_AM", "OBEY_AM x", "Force execute"),
+    ("DISOBEY_AM", "DISOBEY_AM x", "Ignore logic"),
+    ("SABI_AM", "SABI_AM x", "Knowledge base"),
+    ("FORGET_AM", "FORGET_AM x", "Delete var"),
+    ("GIVE_AM", "GIVE_AM x", "Pass argument"),
+    ("TAKE_AM", "TAKE_AM x", "Receive param"),
+    ("DOUBT_AM", "DOUBT_AM x", "Verify data"),
+    ("TRUST_AM", "TRUST_AM x", "Trust data"),
+    ("CHECK_AM", "CHECK_AM x", "Audit log"),
+    ("WAIT_AM", "WAIT_AM", "Await async"),
+    ("GO_SLOW", "GO_SLOW", "Throttle"),
+    ("RUN_FAST", "RUN_FAST", "Optimize"),
+    ("LEVEL_UP", "LEVEL_UP", "Upgrade engine"),
+    ("GROUND_AM", "GROUND_AM", "Local scope"),
+    ("SKY_AM", "SKY_AM", "Global scope"),
+    ("FIRE_AM", "FIRE_AM", "Execute now"),
+    ("WATER_AM", "WATER_AM", "Clean logs"),
+    ("BREEZE_AM", "BREEZE_AM", "Lightweight")
+]
+
+# Populate the table in the UI
+table_body = document.querySelector("#lexicon-table-body")
+for lex, use, mean in big_60:
+    row = f"<tr class='hover:bg-white/5 transition'><td class='p-4 font-mono text-pidi-gold'>{lex}</td><td class='p-4 font-mono text-xs text-gray-400'>{use}</td><td class='p-4 text-xs italic'>{mean}</td></tr>"
+    table_body.innerHTML += row
 
 def run_pidi(event):
     out_box = document.querySelector("#output")
-    out_box.innerText = "Processing...\n"
+    out_box.innerText = ""
     code_input = document.querySelector("#user-code").value
     
     memory = {}
     running = True
-    
-    keywords = ['E_BE_SAME', 'ADD_AM', 'JOIN_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM', 'SUPPOSE', 'SOTEY', 'DAT_ME', 'TALK_AM', 'ASK_AM', 'FINISH', 'NO_BE_SAME', 'PASS_AM', 'UNDER_AM', 'WAKA_ROUND', 'CHOP_AM', 'GET_OUT', 'LISTEN_AM', 'FIX_AM', 'TEST_AM', 'NA_SO', 'NO_BE_SO', 'MUMU_ERROR', 'SENSE_AM', 'NETWORK_AM', 'KPA_AM', 'BOLA_AM', 'TIGHT_AM', 'LOOSE_AM', 'WETIN_BE', 'WHO_BE', 'HOW_FAR', 'DIVE_IN', 'JUMP_OUT', 'SHARP_SHARP', 'SOFT_SOFT', 'KOLO_AM', 'CHILL_AM', 'VEX_AM', 'JOY_AM', 'LOAD_AM', 'SEND_AM', 'CATCH_AM', 'THROW_AM', 'TRY_YOUR_BEST', 'IF_E_BAD', 'ALWAYS_DO', 'STANDBY', 'SHUTDOWN', 'RESTART', 'OBEY_AM', 'DISOBEY_AM', 'SABI_AM', 'FORGET_AM', 'GIVE_AM', 'TAKE_AM', 'DOUBT_AM', 'TRUST_AM', 'CHECK_AM', 'WAIT_AM', 'GO_SLOW', 'RUN_FAST', 'LEVEL_UP', 'GROUND_AM', 'SKY_AM', 'FIRE_AM', 'WATER_AM', 'BREEZE_AM']
+    keywords = [x[0] for x in big_60]
     
     pattern = r'("[^"]*"|[a-zA-Z_]\w*|\d+|\+|\-|\*|\/|\=|\(|\))'
     tokens = re.findall(pattern, code_input)
@@ -108,42 +180,71 @@ def run_pidi(event):
     i = 0
     while i < len(tokens) and running:
         token = tokens[i]
+        
         if token == 'DAT_ME':
-            var_name = tokens[i+1]
-            if i + 5 < len(tokens) and tokens[i+4] in ['JOIN_AM', 'ADD_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM']:
-                v1 = int(memory.get(tokens[i+3], tokens[i+3]))
-                v2 = int(memory.get(tokens[i+5], tokens[i+5]))
-                op = tokens[i+4]
-                if op == 'JOIN_AM' or op == 'ADD_AM': memory[var_name] = v1 + v2
-                elif op == 'MINUS_AM': memory[var_name] = v1 - v2
-                elif op == 'TIMES_AM': memory[var_name] = v1 * v2
-                elif op == 'SHARE_AM': memory[var_name] = v1 // v2
-                i += 6
-            else:
-                val = tokens[i+3]
-                memory[var_name] = val.replace('"', '') if val.startswith('"') else int(val)
-                i += 4
-            continue
+            try:
+                var_name = tokens[i+1]
+                if tokens[i+2] == '=':
+                    if i + 5 < len(tokens) and tokens[i+4] in ['JOIN_AM', 'MINUS_AM', 'TIMES_AM', 'SHARE_AM']:
+                        v1 = memory.get(tokens[i+3])
+                        v2 = memory.get(tokens[i+5])
+                        
+                        if v1 is None: v1 = int(tokens[i+3]) if tokens[i+3].isdigit() else 0
+                        if v2 is None: v2 = int(tokens[i+5]) if tokens[i+5].isdigit() else 0
+                        
+                        op = tokens[i+4]
+                        if op == 'JOIN_AM': memory[var_name] = v1 + v2
+                        elif op == 'MINUS_AM': memory[var_name] = v1 - v2
+                        elif op == 'TIMES_AM': memory[var_name] = v1 * v2
+                        elif op == 'SHARE_AM': memory[var_name] = v1 // v2
+                        i += 6
+                    else:
+                        val = tokens[i+3]
+                        if val.startswith('"'):
+                            memory[var_name] = val.replace('"', '')
+                        elif val.isdigit():
+                            memory[var_name] = int(val)
+                        else:
+                            # Handle variable assignment from another variable
+                            if val in memory:
+                                memory[var_name] = memory[val]
+                            else:
+                                out_box.innerText += f"ERROR: '{val}' no dey memory.\n"
+                        i += 4
+                continue
+            except Exception:
+                out_box.innerText += "MUMU_ERROR: Assignment spoil!\n"
+                break
+
         elif token == 'TALK_AM':
-            target = tokens[i+1]
-            val = memory.get(target, target)
-            out_box.innerText += str(val).replace('"', '') + "\n"
-            i += 2
-            continue
+            try:
+                target = tokens[i+1]
+                if target.startswith('"'):
+                    out_box.innerText += target.replace('"', '') + "\n"
+                elif target in memory:
+                    out_box.innerText += str(memory[target]) + "\n"
+                else:
+                    out_box.innerText += f"ERROR: I no sabi wetin be '{target}'.\n"
+                i += 2
+                continue
+            except: break
+
         elif token == 'FINISH':
             running = False
             break
-        elif token not in keywords and token not in memory and not token.isdigit() and not token.startswith('"') and token not in ['=', '(', ')']:
-            out_box.innerText += f"ERROR: Invalid lexicon '{token}' detected.\n"
+        
+        elif token in keywords or token in memory or token.isdigit() or token.startswith('"') or token in ['=', '(', ')']:
             i += 1
             continue
+            
         else:
+            out_box.innerText += f"INVALID_LEXICON: '{token}' no dey the Big 60.\n"
             i += 1
         </script>
 
-        <footer class="text-center py-20 text-gray-600 text-sm border-t border-gray-900 mt-20">
-            &copy; 2026 PidiLang Project. The Official Language of the Culture.
+        <footer class="text-center py-20 text-gray-700 text-xs tracking-widest font-bold uppercase">
+            Designed for the streets, built for the stars. &copy; 2026 PidiLang.
         </footer>
     </div>
 </body>
-                                                                                                                                                                                       </html>
+    </html>
